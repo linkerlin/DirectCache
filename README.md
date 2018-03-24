@@ -1,2 +1,3 @@
 # DirectCache
-A High Speed Direct Cache
+A High Speed Direct Cache which using arrays instead of maps
+
