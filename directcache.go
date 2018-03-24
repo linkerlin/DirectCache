@@ -132,6 +132,7 @@ func main() {
 	fmt.Println(dc.Exist("色情")==false)
 	fmt.Println(dc.Exist("政治")==true)
 	fmt.Println(dc.Exist("你好")==true)
+	time.Sleep(100*time.Second)
 	dc.Stop()
 
 	return
