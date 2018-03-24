@@ -62,7 +62,6 @@ func hash(s string) (h uint16) {
 	ha := 0
 	for _, b := range []byte(s) {
 		ha += int(b)
-		ha %= 65537
 	}
 	return uint16(ha%65535) + 1
 }
