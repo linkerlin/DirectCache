@@ -115,6 +115,7 @@ func (dc *DirectCache) Del(s string) (ret bool) {
 
 func main() {
 	dc := NewDirectCache(8, func(s string) bool {
+		runtime.Gosched()
 		return false
 	})
 	dc.Add("你好")
