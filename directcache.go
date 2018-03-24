@@ -35,7 +35,7 @@ func NewDirectCache(blocksnum uint16, evictFunc func(string) bool) (dc *DirectCa
 	go func() {
 		defer func() {
 			if err := recover(); err != nil {
-				log.Fatalln("evict error:", err)
+				log.Println("evict error:", err)
 			}
 			for atomic.LoadInt32(&dc.stop) == 0 {
 				time.Sleep(1 * time.Second)
