@@ -71,7 +71,7 @@ func (dc *DirectCache) Add(s string) {
 	h := hash(s)
 	for _, b := range dc.blocks {
 		b.m.Lock()
-		if b.sa[h] == "" {
+		if b.sa[h] == "" || b.sa[h] == s {
 			b.sa[h] = s
 			b.m.Unlock()
 			return
@@ -98,15 +98,40 @@ func (dc *DirectCache) Exist(s string) (ret bool) {
 	return false
 }
 
+func (dc *DirectCache) Del(s string) (ret bool) {
+	h := hash(s)
+	for _, b := range dc.blocks {
+		b.m.Lock()
+		if b.sa[h] == s {
+			b.sa[h] = ""
+			ret = true
+		}
+		b.m.Unlock()
+	}
+	return
+}
+
 func main() {
 	dc := NewDirectCache(8, func(s string) bool {
 		return false
 	})
 	dc.Add("你好")
 	dc.Add("色情")
+	dc.Add("色情")
+	dc.Add("色情")
 	dc.Add("政治")
-	fmt.Println(dc.Exist("大家好"))
-	fmt.Println(dc.Exist("色情"))
+	dc.Add("政治")
+
+	fmt.Println(dc.Exist("大家好")==false)
+	fmt.Println(dc.Exist("色情")==true)
+
+	fmt.Println(dc.Del("大家好")==false)
+	fmt.Println(dc.Del("色情")==true)
+
+	fmt.Println(dc.Exist("色情")==false)
+	fmt.Println(dc.Exist("政治")==true)
+	fmt.Println(dc.Exist("你好")==true)
+
 
 	return
 }
