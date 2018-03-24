@@ -7,6 +7,7 @@ import (
 	"sync"
 	"sync/atomic"
 	"time"
+
 )
 
 type DirectBlock struct {
@@ -53,11 +54,13 @@ func NewDirectCache(blocksnum uint16, evictFunc func(string) bool) (dc *DirectCa
 		}()
 	}()
 	runtime.SetFinalizer(dc, func(dc *DirectCache) {
-		atomic.StoreInt32(&dc.stop, 1)
+		dc.Stop()
 	})
 	return dc
 }
-
+func (dc *DirectCache) Stop(){
+	atomic.StoreInt32(&dc.stop, 1)
+}
 func hash(s string) (h uint16) {
 	ha := 0
 	for _, b := range []byte(s) {
@@ -130,7 +133,7 @@ func main() {
 	fmt.Println(dc.Exist("色情")==false)
 	fmt.Println(dc.Exist("政治")==true)
 	fmt.Println(dc.Exist("你好")==true)
-
+	dc.Stop()
 
 	return
 }
