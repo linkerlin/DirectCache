@@ -42,7 +42,7 @@ func NewDirectCache(blocksnum uint16, evictFunc func(string) bool) (dc *DirectCa
 					time.Sleep(1 * time.Second)
 					b.m.Lock()
 					for i, s := range b.sa {
-						var evict bool = false
+						var evict = false
 						if evict = evictFunc(s); evict {
 							b.sa[i] = ""
 						}
