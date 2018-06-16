@@ -7,7 +7,6 @@ import (
 	"sync"
 	"sync/atomic"
 	"time"
-
 )
 
 type DirectBlock struct {
@@ -56,7 +55,7 @@ func NewDirectCache(blocksnum uint16, evictFunc func(string) bool) (dc *DirectCa
 	})
 	return dc
 }
-func (dc *DirectCache) Stop(){
+func (dc *DirectCache) Stop() {
 	atomic.StoreInt32(&dc.stop, 1)
 }
 func hash(s string) (h uint16) {
@@ -123,16 +122,16 @@ func main() {
 	dc.Add("政治")
 	dc.Add("政治")
 
-	fmt.Println(dc.Exist("大家好")==false)
-	fmt.Println(dc.Exist("色情")==true)
+	fmt.Println(dc.Exist("大家好") == false)
+	fmt.Println(dc.Exist("色情") == true)
 
-	fmt.Println(dc.Del("大家好")==false)
-	fmt.Println(dc.Del("色情")==true)
+	fmt.Println(dc.Del("大家好") == false)
+	fmt.Println(dc.Del("色情") == true)
 
-	fmt.Println(dc.Exist("色情")==false)
-	fmt.Println(dc.Exist("政治")==true)
-	fmt.Println(dc.Exist("你好")==true)
-	time.Sleep(100*time.Second)
+	fmt.Println(dc.Exist("色情") == false)
+	fmt.Println(dc.Exist("政治") == true)
+	fmt.Println(dc.Exist("你好") == true)
+	time.Sleep(100 * time.Second)
 	dc.Stop()
 
 	return
